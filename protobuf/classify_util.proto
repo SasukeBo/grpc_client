@@ -1,0 +1,53 @@
+// Usage
+//
+// # for Elixir
+//
+// protoc --elixir_out=plugins=grpc:./lib/classify_util protobuf/classify_util.proto
+//
+
+syntax = "proto3";
+
+import public "google/protobuf/timestamp.proto";
+
+option java_multiple_files = true;
+option java_package = "com.giabbs.utils";
+option java_outer_classname = "ClassifyUtil";
+option objc_class_prefix = "UTIL_WF";
+
+package ClassifyUtil;
+
+service Server {
+  rpc classify(ClassifyRequest) returns (ClassifyResponse) {}
+  rpc train(AlterCorpusRequest) returns (DefaultResponse) {}
+  rpc give_up(AlterCorpusRequest) returns (DefaultResponse) {}
+  rpc reset(ResetRequest) returns (DefaultResponse) {}
+}
+
+message ResetRequest{
+  bool reset = 1;
+}
+
+message AlterCorpusRequest{
+  string path_or_text = 1;
+  repeated string categories = 2;
+  bool path = 3;
+}
+
+message DefaultResponse{
+  string status = 1;
+  string message = 2;
+}
+
+message ClassifyRequest{
+  string path_or_text = 1;
+  int32 limit = 2;
+  bool path = 3;
+}
+
+message Result{
+  string category = 1;
+  float value = 2;
+}
+message ClassifyResponse{
+  repeated Result results = 1;
+}

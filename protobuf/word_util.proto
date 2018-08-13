@@ -1,0 +1,109 @@
+// Usage
+//
+// # for Elixir
+//
+// protoc --elixir_out=plugins=grpc:./lib/word_util protobuf/word_util.proto
+//
+
+syntax = "proto3";
+
+import public "google/protobuf/timestamp.proto";
+
+option java_multiple_files = true;
+option java_package = "com.giabbs.utils";
+option java_outer_classname = "WordUtil";
+option objc_class_prefix = "UTIL_WF";
+
+package WordUtil;
+
+service Server {
+  rpc ping(PingRequest) returns (DefaultResponse) {}
+  // 设置（新增和修改均可）
+  rpc set_dirty_word(AddWordRequest) returns (DefaultResponse) {}
+  // 删除
+  rpc delete_dirty_word(FindWordRequest) returns (DefaultResponse) {}
+  // 获取敏感词列表
+  rpc get_dirty_words(GetWordsRequest) returns (GetWordsResponse) {}
+  // 过滤敏感词
+  rpc filter_dirty_words(FilterWordsRequest) returns (FilterResponse) {}
+  // 查找敏感词
+  rpc find_dirty_word(FindWordRequest) returns (GetWordsResponse) {}
+  // 设置（新增或修改）锚文本
+  rpc set_anchor(SetAnchorRequest) returns (GetAnchorsResponse) {}
+  // 删除锚文本
+  rpc delete_anchor(FindWordRequest) returns (GetAnchorsResponse) {}
+  // 获取所有锚文本
+  rpc get_anchors(GetWordsRequest) returns (GetAnchorsResponse) {}
+  // 查询锚文本
+  rpc find_anchor(FindWordRequest) returns (GetAnchorsResponse) {}
+}
+
+message GetWordsRequest {
+  string opt = 1;
+}
+
+message Word {
+  string content = 1;
+  string substitute = 2;
+  int32 level = 3;
+  bool published = 4;
+  bool is_regex = 5;
+}
+
+message FilterResponse {
+  string clean_sentence = 1;
+  repeated Word hit_sensitive_words = 2;
+  bool notify = 3;
+  bool refuse = 4;
+}
+
+message GetWordsResponse {
+  string status = 1;
+  string message = 2;
+  repeated Word words = 3;
+}
+
+message PingRequest {
+  string name = 1;
+  int32 age = 2;
+}
+
+message DefaultResponse {
+  string status = 1;
+  string message = 2;
+}
+
+message AddWordRequest {
+  string content = 1;
+  string substitute = 2;
+  int32 level = 3;
+  bool published = 4;
+  bool is_regex = 5;
+}
+
+message FindWordRequest {
+  string content = 1;
+}
+
+message FilterWordsRequest {
+  string sentence = 1;
+  string mode = 2;
+  bool gen_anchor = 3;
+  string type = 4;
+}
+
+message Anchor {
+  string content = 1;
+  string url = 2;
+}
+
+message GetAnchorsResponse {
+  string status = 1;
+  repeated Anchor anchors = 2;
+  string message = 3;
+}
+
+message SetAnchorRequest {
+  string content = 1;
+  string url = 2;
+}
