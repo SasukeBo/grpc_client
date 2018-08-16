@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+POSTGRES_HOST="172.17.0.2" mix ecto.create
+POSTGRES_HOST="172.17.0.2" mix ecto.migrate
+POSTGRES_HOST="172.17.0.2" iex -S mix

@@ -1,3 +1,27 @@
+defmodule ClassifyUtil.PingRequest do
+  @moduledoc false
+  use Protobuf, syntax: :proto3
+
+  @type t :: %__MODULE__{
+          name: String.t()
+        }
+  defstruct [:name]
+
+  field :name, 1, type: :string
+end
+
+defmodule ClassifyUtil.PingResponse do
+  @moduledoc false
+  use Protobuf, syntax: :proto3
+
+  @type t :: %__MODULE__{
+          message: String.t()
+        }
+  defstruct [:message]
+
+  field :message, 1, type: :string
+end
+
 defmodule ClassifyUtil.ResetRequest do
   @moduledoc false
   use Protobuf, syntax: :proto3
@@ -90,6 +114,7 @@ defmodule ClassifyUtil.Server.Service do
   rpc :train, ClassifyUtil.AlterCorpusRequest, ClassifyUtil.DefaultResponse
   rpc :give_up, ClassifyUtil.AlterCorpusRequest, ClassifyUtil.DefaultResponse
   rpc :reset, ClassifyUtil.ResetRequest, ClassifyUtil.DefaultResponse
+  rpc :ping, ClassifyUtil.PingRequest, ClassifyUtil.PingResponse
 end
 
 defmodule ClassifyUtil.Server.Stub do

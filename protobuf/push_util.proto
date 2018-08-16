@@ -1,0 +1,51 @@
+// Usage
+//
+// # for Elixir
+//
+// protoc --elixir_out=plugins=grpc:./lib/push_util protobuf/push_util.proto
+//
+
+syntax = "proto3";
+
+import public "google/protobuf/timestamp.proto";
+
+option java_multiple_files = true;
+option java_package = "com.giabbs.utils";
+option java_outer_classname = "PushUtil";
+option objc_class_prefix = "UTIL_WF";
+
+package PushUtil;
+
+service Server {
+  rpc send_msg(SendMsgRequest) returns (DefaultResponse) {}
+  rpc add_user_device(AlterUserDeviceRequest) returns (DefaultResponse) {}
+  rpc delete_user_device(AlterUserDeviceRequest) returns (DefaultResponse) {}
+  rpc ping(PingRequest) returns (PingResponse) {}
+}
+
+message PingRequest {
+  string name = 1;
+}
+
+message PingResponse {
+  string message = 1;
+}
+
+message AlterUserDeviceRequest {
+  string user_id = 1;
+  string device_system = 2;
+  string user_token = 3;
+}
+
+message SendMsgRequest {
+  string title = 1;
+  string description = 2;
+  string content = 3;
+  string user_id = 4;
+}
+
+message DefaultResponse {
+  string msg = 1;
+  string status = 2;
+}
+

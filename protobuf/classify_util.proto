@@ -21,6 +21,15 @@ service Server {
   rpc train(AlterCorpusRequest) returns (DefaultResponse) {}
   rpc give_up(AlterCorpusRequest) returns (DefaultResponse) {}
   rpc reset(ResetRequest) returns (DefaultResponse) {}
+  rpc ping(PingRequest) returns (PingResponse) {}
+}
+
+message PingRequest {
+  string name = 1;
+}
+
+message PingResponse {
+  string message = 1;
 }
 
 message ResetRequest{

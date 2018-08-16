@@ -1,0 +1,50 @@
+// Usage
+//
+// # for Elixir
+//
+// protoc --elixir_out=plugins=grpc:./lib/notify_util protobuf/notify_util.proto
+//
+
+syntax = "proto3";
+
+import public "google/protobuf/timestamp.proto";
+
+option java_multiple_files = true;
+option java_package = "com.giabbs.utils";
+option java_outer_classname = "NotifyUtil";
+option objc_class_prefix = "UTIL_WF";
+
+package NotifyUtil;
+
+service Server {
+  rpc ping(PingRequest) returns (PingResponse) {}
+  rpc send_sms(SendSmsRequest) returns (DefaultResponse) {}
+  rpc send_email(SendEmailRequest) returns (DefaultResponse) {}
+}
+
+message PingRequest {
+  string username =1;
+}
+
+message PingResponse {
+  string msg =1;
+}
+
+message SendSmsRequest {
+  string phone_num = 1;
+  string template_name = 2;
+  string template_param = 3;
+}
+
+message DefaultResponse {
+  string status = 1;
+  string msg = 2;
+}
+
+message SendEmailRequest {
+  string subject = 1;
+  string content_type = 2;
+  string content = 3;
+  string to_address = 4;
+}
+
